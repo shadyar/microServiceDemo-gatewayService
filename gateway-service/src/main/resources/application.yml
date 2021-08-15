@@ -1,14 +1,20 @@
 server:
   port: 8081
 spring:
+  application:
+    name: gateway-service
   cloud:
     gateway:
       routes:
       - id: greetingModule
-        uri: http://localhost:8082/
+        uri: lb://greeting-service
         predicates:
         - Path=/greeting/**
       - id: feignClientModule
-        uri: http://localhost:8083/
+        uri: lb://feign-client-service
         predicates:
         - Path=/get-greeting/**
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka
